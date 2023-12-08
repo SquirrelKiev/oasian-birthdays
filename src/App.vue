@@ -125,6 +125,7 @@ interface Birthday {
 
 <template>
   <h1>Oasian birthday list maker thing</h1>
+  <p>Tool for generating ever-updating birthday lists for Discord.</p>
   <textarea
     rows="10"
     v-model="birthdayListIO"
