@@ -80,17 +80,20 @@ function sortBirthdaysRelative() {
 }
 
 function updateIO() {
-  let birthdaysStr = header ? `${header}\n` : "";
+  let birthdaysStr = header ? `${header}` : "";
 
-  birthdays.forEach((element, index) => {
-    const timestamp = Math.floor(
-      getFutureUnixTimestamp(element.day, element.month) / 1000
-    ); // unneccessary floor but im being safe here
-    birthdaysStr += `${element.username} - <t:${timestamp}:d> (<t:${timestamp}:R>)`;
-    if (index < birthdays.length - 1) {
-      birthdaysStr += "\n";
-    }
-  });
+  if (birthdays.length > 0) {
+    if (header) birthdaysStr += "\n";
+    birthdays.forEach((element, index) => {
+      const timestamp = Math.floor(
+        getFutureUnixTimestamp(element.day, element.month) / 1000
+      ); // unneccessary floor but im being safe here
+      birthdaysStr += `${element.username} - <t:${timestamp}:d> (<t:${timestamp}:R>)`;
+      if (index < birthdays.length - 1) {
+        birthdaysStr += "\n";
+      }
+    });
+  }
 
   if (footer) birthdaysStr += `\n${footer}`;
 
@@ -125,6 +128,12 @@ function parseBirthdays(input: string): Birthday[] {
       if (birthdayListStart === -1) birthdayListStart = i;
       birthdayListEnd = i;
     }
+  }
+
+  if (birthdayListStart === -1) {
+    header = input;
+    footer = "";
+    return [];
   }
 
   // get the header and footer
@@ -182,8 +191,8 @@ interface Birthday {
     @change="onIOUpdatedByUser"
   />
   <label for="relative-sort-toggle"
-  >Should the list be sorted relative to the current date? (birthdays that
-  have passed go to the end of the list)</label
+    >Should the list be sorted relative to the current date? (birthdays that
+    have passed go to the end of the list)</label
   >
   <hr />
   <textarea
