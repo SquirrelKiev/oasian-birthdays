@@ -147,7 +147,7 @@ function parseBirthdays(input: string): Birthday[] {
 }
 
 function isBirthdayLine(line: string): boolean {
-  return /@.* - <t:\d+:d>/.test(line);
+  return /.* - <t:\d+:d>/.test(line);
 }
 
 function parseBirthdayLine(line: string, index: number): Birthday {
